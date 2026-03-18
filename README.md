@@ -1,4 +1,4 @@
->**IMPORTANT**
+**IMPORTANT**
 
 > This file does not contain the actual excercises (not even their names).
 It only contains the numbering (e.g. week 02, excercise p, number 3).
