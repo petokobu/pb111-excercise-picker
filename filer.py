@@ -52,6 +52,7 @@ class Filer:
         if folder == "data":
             app_dir = os.path.join(os.environ["LOCALAPPDATA"], "pb111")
             data_dir = os.path.join(app_dir, "data")
+            os.makedirs(data_dir, exist_ok = True)
             filepath = os.path.join(data_dir, filename)
             if not force and not os.path.exists(filepath):
                 self.initialize()

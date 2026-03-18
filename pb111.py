@@ -142,4 +142,27 @@ def main() -> None:
             updater.assemble_scores(scores)
 
 
+def create_call(args: str) -> int:
+    arg_count = 0
+    for arg in args.rstrip().split(" "):
+        argv.append(arg)
+        arg_count += 1
+    return arg_count
+
+
+def test_call(args: str) -> None:
+    arg_count = create_call(args)
+    main()
+    for _ in range(arg_count):
+        argv.pop()
+
+
+def testing() -> None:
+    test_call("all pick")
+    test_call("all score")
+    test_call("all reset")
+    test_call("all score")
+
+
+# testing()
 main()
