@@ -68,7 +68,7 @@ def get_args() -> tuple[int, int, str] | None:
             print_error()
             return None
         return week_from, week_to, action
-    
+
     if not argv[1].isdecimal() or not argv[2].isdecimal():
         print_error()
         return None
@@ -80,7 +80,7 @@ def get_args() -> tuple[int, int, str] | None:
     action = argv[3].lower()
     if action not in {"pick", "reset", "score"}:
         print_error()
-        return
+        return None
     return week_from, week_to, action
 
 
@@ -94,8 +94,8 @@ def main() -> None:
         print_error()
         return
 
-    usr_filer = Filer("usr.txt", folder = "data")
-    scr_filer = Filer("scr.txt", folder = "data")
+    usr_filer = Filer("usr.txt", folder="data")
+    scr_filer = Filer("scr.txt", folder="data")
     usr_parser = Parser(usr_filer)
     scr_parser = Parser(scr_filer)
     updater = Updater()
@@ -104,12 +104,12 @@ def main() -> None:
     if len(argv) == 5:
         process_update(bundle)
         return
-    
+
     args = get_args()
     if args is None:
         return
     week_from, week_to, action = args
-    
+
     if action == "score":
         passed, total = scr_parser.get_score(week_from, week_to)
         perc = str(round((passed / total) * 100, 2)) + " %" \
@@ -124,7 +124,7 @@ def main() -> None:
         randomizer = Randomizer(usr_parser, week_from, week_to)
         pick = randomizer.pick()
         if pick is None:
-            print_error(msg = "no available excercise..")
+            print_error(msg="no available excercise..")
             return
         week, tp, num = pick
         print(f"{week:02}/{tp}{num}")

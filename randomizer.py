@@ -21,7 +21,7 @@ class Randomizer:
                 if parser.empty_excs[week][tp]:
                     continue
                 self.av_excs[week].append(tp)
-    
+
     def pick(self) -> tuple[int, str, int] | None:
         if len(self.av_weeks) == 0:
             return None

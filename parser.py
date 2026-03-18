@@ -21,7 +21,9 @@ class Parser:
             sys.stderr.write("ABORTING..")
             return False
 
-        weeks = self.filer.get_content().split("\n")
+        content = self.filer.get_content()
+        assert content is not None, "err: missed exception"
+        weeks = content.split("\n")
         try:
             for week, line in enumerate(weeks):
                 self.excs[week + 1] = {}
@@ -29,8 +31,8 @@ class Parser:
                 for i in range(0, 5, 2):
                     self.excs[week + 1][seg[i]] = \
                         [int(ex) for ex in seg[i + 1].split(",")
-                        if ex]
-        except:
+                         if ex]
+        except Exception:
             self.fail_counter += 1
             self.parse()
         return True
@@ -56,37 +58,41 @@ class Parser:
             "err: trying to parse from an unspecified file"
         assert 1 <= week_from <= week_to <= 12, \
             "err: incorrect week interval"
-    
+
         passed, total = 0, 0
-        scores = self.filer.get_content().split("\n")
+        content = self.filer.get_content()
+        assert content is not None, "err: missed exception"
+        scores = content.split("\n")
 
         try:
             for week in range(week_from, week_to + 1):
                 seg = scores[week - 1].split("/")
                 passed += int(seg[0])
                 total += int(seg[1])
-        except:
+        except Exception:
             sys.stderr.write("ERROR: corrupted data in scr.txt\n")
             sys.stderr.write("RECOVERING DEFAULT DATA..\n")
             sys.stderr.flush()
             self.filer.reset()
-        
+
         return passed, total
-    
+
     def get_scores(self) -> list[tuple[int, int]]:
         assert self.filer.filename == "scr.txt", \
             "err: trying to parse from an unspecified file"
-        
-        lines = self.filer.get_content().split("\n")
+
+        content = self.filer.get_content()
+        assert content is not None, "err: missed exception"
+        lines = content.split("\n")
         scores = []
         try:
             for week in lines:
                 seg = week.split("/")
                 scores.append((int(seg[0]), int(seg[1])))
-        except:
+        except Exception:
             sys.stderr.write("ERROR: corrupted data in scr.txt\n")
             sys.stderr.write("RECOVERING DEFAULT DATA..\n")
             sys.stderr.flush()
             self.filer.reset()
-        
+
         return scores
